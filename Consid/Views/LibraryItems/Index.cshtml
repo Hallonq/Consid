@@ -1,0 +1,89 @@
+﻿@model LibraryItemViewModel
+
+@{
+    ViewData["Title"] = "Library Items";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LibraryItem.Id)
+            </th>
+            <th> <!-- fix this column, shows nothing :s -->
+                @Html.DisplayNameFor(model => model.LibraryItem.Category.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LibraryItem.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LibraryItem.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LibraryItem.Pages)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LibraryItem.RunTimeMinutes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LibraryItem.IsBorrowable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LibraryItem.Borrower)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LibraryItem.BorrowDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LibraryItem.Type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.LibraryItemList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pages)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RunTimeMinutes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsBorrowable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Borrower)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BorrowDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
