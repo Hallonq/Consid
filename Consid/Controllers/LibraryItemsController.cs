@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Consid.Controllers
             return View(libraryItemViewModel);
         }
 
-        public List<SelectListItem> GetTypeList()
+        public List<SelectListItem> GetTypes()
         {
             List<SelectListItem> types = new List<SelectListItem>()
             {
@@ -48,9 +49,22 @@ namespace Consid.Controllers
             return types;
         }
 
+        public List<SelectListItem> GetCategories()
+        {
+            List<Category> categories = _dbContext.Category.ToList();
+            List<SelectListItem> selectCategoryItem = new List<SelectListItem>();
+            foreach (var item in categories)
+            {
+                selectCategoryItem.Add(new SelectListItem() { Text = item.CategoryName, Value = item.Id.ToString() });
+            }
+
+            return selectCategoryItem;
+        }
+
         public ActionResult Create()
         {
-            ViewBag.typeList = GetTypeList();
+            ViewBag.Types = GetTypes();
+            ViewBag.Categories = GetCategories();
 
             return View();
         }
@@ -74,17 +88,20 @@ namespace Consid.Controllers
 
         public ActionResult Edit(LibraryItem libraryItem)
         {
-            ViewBag.typeList = GetTypeList();
+            ViewBag.Types = GetTypes();
 
             return View(libraryItem);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, LibraryItem libraryItem)
         {
             try
             {
+                _dbContext.Entry(libraryItem).State = EntityState.Modified;
+                _dbContext.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             catch
