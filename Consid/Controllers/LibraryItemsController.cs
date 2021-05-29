@@ -22,20 +22,42 @@ namespace Consid.Controllers
             _dbContext = dbContext;
         }
 
-        public ActionResult Index(/* sort by int index */)
+        public ActionResult Index(string sortBy)
         {
             LibraryItemViewModel libraryItemViewModel = new LibraryItemViewModel();
-            libraryItemViewModel.LibraryItemList = _dbContext.LibraryItem.OrderBy(x => x.Category.CategoryName).ToList();
+
             libraryItemViewModel.CategoryList = _dbContext.Category.ToList();
 
+            // default sorterat på categoryname
+            libraryItemViewModel.LibraryItemList = _dbContext.LibraryItem.OrderBy(x => x.Category.CategoryName).ToList();
+
+            // akronym på title
             foreach (var item in libraryItemViewModel.LibraryItemList)
             {
                 item.Title += $" ({ string.Join(string.Empty, item.Title.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s[0])) })";
             }
 
+            // sorter
+            ViewBag.SortByCategoryName = string.IsNullOrEmpty(sortBy) ? "CategoryName" : "CategoryName";
+            ViewBag.SortByType = sortBy == "Type" ? "Type" : "Type";
+
+            switch (sortBy)
+            {
+                case "CategoryName":
+                    libraryItemViewModel.LibraryItemList = libraryItemViewModel.LibraryItemList.OrderBy(x => x.Category.CategoryName).ToList();
+                    break;
+                case "Type":
+                    libraryItemViewModel.LibraryItemList = libraryItemViewModel.LibraryItemList.OrderBy(x => x.Type).ToList();
+                    break;
+                default:
+                    libraryItemViewModel.LibraryItemList = libraryItemViewModel.LibraryItemList.OrderBy(x => x.Category.CategoryName).ToList();
+                    break;
+            }
+
             return View(libraryItemViewModel);
         }
 
+        // hårdkodad typ-lista
         public List<SelectListItem> GetTypes()
         {
             List<SelectListItem> types = new List<SelectListItem>()
@@ -49,6 +71,7 @@ namespace Consid.Controllers
             return types;
         }
 
+        // returnerar kategorilista som SelectListItem object
         public List<SelectListItem> GetCategories()
         {
             List<Category> categories = _dbContext.Category.ToList();
@@ -112,7 +135,17 @@ namespace Consid.Controllers
 
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                _dbContext.Remove(_dbContext.LibraryItem.Where(x => x.Id == id).SingleOrDefault());
+                _dbContext.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }

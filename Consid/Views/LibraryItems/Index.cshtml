@@ -16,7 +16,8 @@
                 @Html.DisplayNameFor(model => model.LibraryItem.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LibraryItem.Category.CategoryName)
+                @Html.ActionLink("CategoryName", "Index", new { sortBy = ViewBag.SortByCategoryName })
+                @*@Html.DisplayNameFor(model => model.LibraryItem.Category.CategoryName)*@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LibraryItem.Title)
@@ -40,7 +41,8 @@
                 @Html.DisplayNameFor(model => model.LibraryItem.BorrowDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LibraryItem.Type)
+                @Html.ActionLink("Type", "Index", new { sortBy = ViewBag.SortByType })
+                @*@Html.DisplayNameFor(model => model.LibraryItem.Type)*@
             </th>
             <th></th>
         </tr>

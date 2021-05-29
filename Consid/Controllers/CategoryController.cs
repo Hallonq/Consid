@@ -35,6 +35,7 @@ namespace Consid.Controllers
         {
             try
             {
+                // om kategori har unikt namn
                 if (!_dbContext.Category.Where(x => x.CategoryName == category.CategoryName).Any())
                 {
                     _dbContext.Category.Add(category);
@@ -73,12 +74,14 @@ namespace Consid.Controllers
 
         public ActionResult Delete(int id)
         {
-            // But if a category is referenced in any library item it cannot be deleted until the reference is removed first.
             try
             {
-                _dbContext.Remove(_dbContext.Category.Where(x => x.Id == id).SingleOrDefault());
-                _dbContext.SaveChangesAsync();
-
+                // om kategori har referens i library item
+                if (_dbContext.LibraryItem.Where(x => x.CategoryId == id).Count() == 0)
+                {
+                    _dbContext.Remove(_dbContext.Category.Where(x => x.Id == id).SingleOrDefault());
+                    _dbContext.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
