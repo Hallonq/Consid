@@ -22,10 +22,8 @@ namespace Consid.Controllers
             _dbContext = dbContext;
         }
 
-        public ActionResult Index(string sortBy)
+        public ActionResult Index(LibraryItemViewModel libraryItemViewModel, string sortBy)
         {
-            LibraryItemViewModel libraryItemViewModel = new LibraryItemViewModel();
-
             libraryItemViewModel.CategoryList = _dbContext.Category.ToList();
 
             // default sorterat på categoryname
@@ -109,9 +107,12 @@ namespace Consid.Controllers
             }
         }
 
-        public ActionResult Edit(LibraryItem libraryItem)
+        public ActionResult Edit(int id)
         {
             ViewBag.Types = GetTypes();
+            ViewBag.Categories = GetCategories();
+
+            LibraryItem libraryItem = _dbContext.LibraryItem.Where(x => x.Id == id).SingleOrDefault();
 
             return View(libraryItem);
         }
@@ -122,6 +123,7 @@ namespace Consid.Controllers
         {
             try
             {
+                libraryItem.BorrowDate = DateTime.Now;
                 _dbContext.Entry(libraryItem).State = EntityState.Modified;
                 _dbContext.SaveChangesAsync();
 
