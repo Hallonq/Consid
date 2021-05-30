@@ -1,4 +1,5 @@
-﻿using Consid.ViewModels;
+﻿using Consid.Logic;
+using Consid.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,62 +31,21 @@ namespace Consid.Controllers
             libraryItemViewModel.LibraryItemList = _dbContext.LibraryItem.OrderBy(x => x.Category.CategoryName).ToList();
 
             // akronym på title
-            foreach (var item in libraryItemViewModel.LibraryItemList)
-            {
-                item.Title += $" ({ string.Join(string.Empty, item.Title.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s[0])) })";
-            }
+            libraryItemViewModel.LibraryItemList = LibraryItemLogic.AddAcronym(libraryItemViewModel.LibraryItemList);
 
             // sorter
             ViewBag.SortByCategoryName = string.IsNullOrEmpty(sortBy) ? "CategoryName" : "CategoryName";
             ViewBag.SortByType = sortBy == "Type" ? "Type" : "Type";
 
-            switch (sortBy)
-            {
-                case "CategoryName":
-                    libraryItemViewModel.LibraryItemList = libraryItemViewModel.LibraryItemList.OrderBy(x => x.Category.CategoryName).ToList();
-                    break;
-                case "Type":
-                    libraryItemViewModel.LibraryItemList = libraryItemViewModel.LibraryItemList.OrderBy(x => x.Type).ToList();
-                    break;
-                default:
-                    libraryItemViewModel.LibraryItemList = libraryItemViewModel.LibraryItemList.OrderBy(x => x.Category.CategoryName).ToList();
-                    break;
-            }
+            libraryItemViewModel.LibraryItemList = LibraryItemLogic.Sorter(sortBy, libraryItemViewModel.LibraryItemList);
 
             return View(libraryItemViewModel);
         }
 
-        // hårdkodad typ-lista
-        public List<SelectListItem> GetTypes()
-        {
-            List<SelectListItem> types = new List<SelectListItem>()
-            {
-                new SelectListItem() {Text = "book"},
-                new SelectListItem() {Text = "reference book"},
-                new SelectListItem() {Text = "dvd"},
-                new SelectListItem() {Text = "audio book"}
-            };
-
-            return types;
-        }
-
-        // returnerar kategorilista som SelectListItem object
-        public List<SelectListItem> GetCategories()
-        {
-            List<Category> categories = _dbContext.Category.ToList();
-            List<SelectListItem> selectCategoryItem = new List<SelectListItem>();
-            foreach (var item in categories)
-            {
-                selectCategoryItem.Add(new SelectListItem() { Text = item.CategoryName, Value = item.Id.ToString() });
-            }
-
-            return selectCategoryItem;
-        }
-
         public ActionResult Create()
         {
-            ViewBag.Types = GetTypes();
-            ViewBag.Categories = GetCategories();
+            ViewBag.Types = LibraryItemLogic.GetTypes();
+            ViewBag.Categories = LibraryItemLogic.GetCategories(_dbContext);
 
             return View();
         }
@@ -96,9 +56,7 @@ namespace Consid.Controllers
         {
             try
             {
-                _dbContext.LibraryItem.Add(libraryItem);
-                _dbContext.SaveChangesAsync();
-
+                DatabaseLogic.CRUD(_dbContext, libraryItem, "Create");
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -109,8 +67,8 @@ namespace Consid.Controllers
 
         public ActionResult Edit(int id)
         {
-            ViewBag.Types = GetTypes();
-            ViewBag.Categories = GetCategories();
+            ViewBag.Types = LibraryItemLogic.GetTypes();
+            ViewBag.Categories = LibraryItemLogic.GetCategories(_dbContext);
 
             LibraryItem libraryItem = _dbContext.LibraryItem.Where(x => x.Id == id).SingleOrDefault();
 
@@ -119,14 +77,11 @@ namespace Consid.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, LibraryItem libraryItem)
+        public ActionResult Edit(LibraryItem libraryItem)
         {
             try
             {
-                libraryItem.BorrowDate = DateTime.Now;
-                _dbContext.Entry(libraryItem).State = EntityState.Modified;
-                _dbContext.SaveChangesAsync();
-
+                LibraryItemLogic.CheckInOrOut(_dbContext, libraryItem);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -139,9 +94,7 @@ namespace Consid.Controllers
         {
             try
             {
-                _dbContext.Remove(_dbContext.LibraryItem.Where(x => x.Id == id).SingleOrDefault());
-                _dbContext.SaveChangesAsync();
-
+                DatabaseLogic.CRUD(_dbContext, _dbContext.LibraryItem.Where(x => x.Id == id).SingleOrDefault(), "Delete");
                 return RedirectToAction(nameof(Index));
             }
             catch

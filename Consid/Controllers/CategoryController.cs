@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Consid.Logic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -38,8 +39,7 @@ namespace Consid.Controllers
                 // om kategori har unikt namn
                 if (!_dbContext.Category.Where(x => x.CategoryName == category.CategoryName).Any())
                 {
-                    _dbContext.Category.Add(category);
-                    _dbContext.SaveChangesAsync();
+                    DatabaseLogic.CRUD(_dbContext, category, "Create");
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -61,9 +61,7 @@ namespace Consid.Controllers
         {
             try
             {
-                _dbContext.Entry(category).State = EntityState.Modified;
-                _dbContext.SaveChangesAsync();
-
+                DatabaseLogic.CRUD(_dbContext, category, "Edit");
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -79,8 +77,7 @@ namespace Consid.Controllers
                 // om kategori har referens i library item
                 if (_dbContext.LibraryItem.Where(x => x.CategoryId == id).Count() == 0)
                 {
-                    _dbContext.Remove(_dbContext.Category.Where(x => x.Id == id).SingleOrDefault());
-                    _dbContext.SaveChangesAsync();
+                    DatabaseLogic.CRUD(_dbContext, _dbContext.Category.Where(x => x.Id == id).SingleOrDefault(), "Delete");
                 }
                 return RedirectToAction(nameof(Index));
             }
