@@ -17,10 +17,6 @@ namespace Consid
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            //var builder = new ConfigurationBuilder()
-            //    .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-            //    .AddJsonFile("appsettings.json");
-            //Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -30,6 +26,7 @@ namespace Consid
             services.AddControllersWithViews();
             services.AddDbContext<ConsidContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("Consid")));
+            services.AddSession();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -45,10 +42,9 @@ namespace Consid
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

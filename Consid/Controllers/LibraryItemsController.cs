@@ -26,18 +26,27 @@ namespace Consid.Controllers
         public ActionResult Index(LibraryItemViewModel libraryItemViewModel, string sortBy)
         {
             libraryItemViewModel.CategoryList = _dbContext.Category.ToList();
+            libraryItemViewModel.LibraryItemList = _dbContext.LibraryItem.ToList();
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                HttpContext.Session.SetString("sortBy", sortBy);
+            }
+
 
             // default sorterat på categoryname
-            libraryItemViewModel.LibraryItemList = _dbContext.LibraryItem.OrderBy(x => x.Category.CategoryName).ToList();
+            //if (string.IsNullOrEmpty(_sortBy))
+            //{
+            //    libraryItemViewModel.LibraryItemList = _dbContext.LibraryItem.OrderBy(x => x.Category.CategoryName).ToList();
+            //}
 
             // akronym på title
             libraryItemViewModel.LibraryItemList = LibraryItemLogic.AddAcronym(libraryItemViewModel.LibraryItemList);
 
             // sorter
-            ViewBag.SortByCategoryName = string.IsNullOrEmpty(sortBy) ? "CategoryName" : "CategoryName";
-            ViewBag.SortByType = sortBy == "Type" ? "Type" : "Type";
+            ViewBag.SortByCategoryName = string.IsNullOrEmpty(HttpContext.Session.GetString("sortBy")) ? "CategoryName" : "CategoryName";
+            ViewBag.SortByType = HttpContext.Session.GetString("sortBy") == "Type" ? "Type" : "Type";
 
-            libraryItemViewModel.LibraryItemList = LibraryItemLogic.Sorter(sortBy, libraryItemViewModel.LibraryItemList);
+            libraryItemViewModel.LibraryItemList = LibraryItemLogic.Sorter(HttpContext.Session.GetString("sortBy"), libraryItemViewModel.LibraryItemList);
 
             return View(libraryItemViewModel);
         }

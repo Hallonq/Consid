@@ -10,6 +10,7 @@ namespace Consid.Logic
 {
     public class LibraryItemLogic
     {
+        // lägger till akronym i titel
         public static List<LibraryItem> AddAcronym(List<LibraryItem> libraryItemList)
         {
             foreach (var item in libraryItemList)
@@ -20,6 +21,7 @@ namespace Consid.Logic
             return libraryItemList;
         }
 
+        // sorterar libraryitem-table
         public static List<LibraryItem> Sorter(string sortBy, List<LibraryItem> libraryItemList)
         {
             switch (sortBy)
