@@ -32,20 +32,13 @@ namespace Consid.Controllers
                 HttpContext.Session.SetString("sortBy", sortBy);
             }
 
-
-            // default sorterat på categoryname
-            //if (string.IsNullOrEmpty(_sortBy))
-            //{
-            //    libraryItemViewModel.LibraryItemList = _dbContext.LibraryItem.OrderBy(x => x.Category.CategoryName).ToList();
-            //}
-
             // akronym på title
             libraryItemViewModel.LibraryItemList = LibraryItemLogic.AddAcronym(libraryItemViewModel.LibraryItemList);
 
             // sorter
             ViewBag.SortByCategoryName = string.IsNullOrEmpty(HttpContext.Session.GetString("sortBy")) ? "CategoryName" : "CategoryName";
             ViewBag.SortByType = HttpContext.Session.GetString("sortBy") == "Type" ? "Type" : "Type";
-
+            // sorter metod
             libraryItemViewModel.LibraryItemList = LibraryItemLogic.Sorter(HttpContext.Session.GetString("sortBy"), libraryItemViewModel.LibraryItemList);
 
             return View(libraryItemViewModel);
@@ -90,6 +83,7 @@ namespace Consid.Controllers
         {
             try
             {
+                // check-(OUT/IN)
                 LibraryItemLogic.CheckInOrOut(_dbContext, libraryItem);
                 return RedirectToAction(nameof(Index));
             }

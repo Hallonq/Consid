@@ -9,7 +9,6 @@ namespace Consid.ViewModels
     {
         public LibraryItem LibraryItem { get; set; }
         public List<LibraryItem> LibraryItemList { get; set; }
-        public Category Category { get; set; }
         public List<Category> CategoryList { get; set; }
 
         public LibraryItemViewModel()
