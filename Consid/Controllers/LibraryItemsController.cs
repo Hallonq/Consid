@@ -58,8 +58,12 @@ namespace Consid.Controllers
         {
             try
             {
-                DatabaseLogic.CRUD(_dbContext, libraryItem, "Create");
-                return RedirectToAction(nameof(Index));
+                if (libraryItem.Type != "reference book")
+                {
+                    DatabaseLogic.CRUD(_dbContext, libraryItem, "Create");
+                    return RedirectToAction(nameof(Index));
+                }
+                return View();
             }
             catch
             {

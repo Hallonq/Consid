@@ -40,8 +40,9 @@ namespace Consid.Controllers
                 if (!_dbContext.Category.Where(x => x.CategoryName == category.CategoryName).Any())
                 {
                     DatabaseLogic.CRUD(_dbContext, category, "Create");
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                return View();
             }
             catch
             {
