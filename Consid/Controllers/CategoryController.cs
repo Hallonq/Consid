@@ -76,7 +76,7 @@ namespace Consid.Controllers
             try
             {
                 // om kategori har referens i library item
-                if (_dbContext.LibraryItem.Where(x => x.CategoryId == id).Count() == 0)
+                if (!_dbContext.LibraryItem.Where(x => x.CategoryId == id).Any())
                 {
                     DatabaseLogic.CRUD(_dbContext, _dbContext.Category.Where(x => x.Id == id).SingleOrDefault(), "Delete");
                 }
