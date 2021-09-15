@@ -1,4 +1,4 @@
-﻿using Consid.Logic;
+﻿using Library.Logic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Consid.Controllers
+namespace Library.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ConsidContext _dbContext;
+        private readonly LibraryContext _dbContext;
 
-        public CategoryController(ConsidContext dbContext)
+        public CategoryController(LibraryContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -3,15 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
-namespace Consid
+namespace Library
 {
-    public partial class ConsidContext : DbContext
+    public partial class LibraryContext : DbContext
     {
-        public ConsidContext()
+        public LibraryContext()
         {
         }
 
-        public ConsidContext(DbContextOptions<ConsidContext> options)
+        public LibraryContext(DbContextOptions<LibraryContext> options)
             : base(options)
         {
         }
@@ -24,7 +24,7 @@ namespace Consid
         //{
         //    if (!optionsBuilder.IsConfigured)
         //    {
-        //        optionsBuilder.UseSqlServer(Configuration.GetConnectionString("Consid"));
+        //        optionsBuilder.UseSqlServer(Configuration.GetConnectionString("Library"));
         //    }
         //}
 

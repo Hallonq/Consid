@@ -1,4 +1,4 @@
-﻿using Consid.Controllers;
+﻿using Library.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Consid.Logic
+namespace Library.Logic
 {
     public class LibraryItemLogic
     {
@@ -50,7 +50,7 @@ namespace Consid.Logic
         }
 
         // returnerar kategorilista som SelectListItem object
-        public static List<SelectListItem> GetCategories(ConsidContext _dbContext)
+        public static List<SelectListItem> GetCategories(LibraryContext _dbContext)
         {
             List<Category> categories = _dbContext.Category.ToList();
             List<SelectListItem> selectCategoryItem = new List<SelectListItem>();
@@ -63,7 +63,7 @@ namespace Consid.Logic
         }
 
         // CHECK-(OUT/IN)
-        public static void CheckInOrOut(ConsidContext _dbContext, LibraryItem libraryItem)
+        public static void CheckInOrOut(LibraryContext _dbContext, LibraryItem libraryItem)
         {
             // check-out
             if (libraryItem.IsBorrowable && !string.IsNullOrEmpty(libraryItem.Borrower) && libraryItem.Type != "reference book")

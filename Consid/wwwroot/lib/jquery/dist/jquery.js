@@ -838,7 +838,7 @@ function Sizzle( selector, context, results, seed ) {
 				newSelector = selector;
 				newContext = context;
 
-				// qSA considers elements outside a scoping root when evaluating child or
+				// qSA Libraryers elements outside a scoping root when evaluating child or
 				// descendant combinators, which is not what we want.
 				// In such cases, we work around the behavior by prefixing every selector in the
 				// list with an ID selector referencing the scope context.
@@ -8196,7 +8196,7 @@ jQuery.extend( {
 // The getter ensures a default option is selected
 // when in an optgroup
 // eslint rule "no-unused-expressions" is disabled for this code
-// since it considers such accessions noop
+// since it Libraryers such accessions noop
 if ( !support.optSelected ) {
 	jQuery.propHooks.selected = {
 		get: function( elem ) {
@@ -10568,7 +10568,7 @@ jQuery.fn.extend( {
 	// 3) For body or html element, i.e. in case of the html node - it will return itself
 	//
 	// but those exceptions were never presented as a real life use-cases
-	// and might be considered as more preferable results.
+	// and might be Libraryered as more preferable results.
 	//
 	// This logic, however, is not guaranteed and can change at any point in the future
 	offsetParent: function() {

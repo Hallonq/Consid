@@ -1,6 +1,6 @@
 using System;
 
-namespace Consid.Models
+namespace Library.Models
 {
     public class ErrorViewModel
     {

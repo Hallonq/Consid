@@ -1937,7 +1937,7 @@
     var rect = {};
 
     // IE10 10 FIX: Please, don't ask, the element isn't
-    // considered in DOM in some circumstances...
+    // Libraryered in DOM in some circumstances...
     // This isn't reproducible in IE10 compatibility mode of IE11
     try {
       if (isIE(10)) {
@@ -2725,7 +2725,7 @@
    * Firefox prefers no rounding for positioning and does not have blurriness on
    * high DPI screens.
    *
-   * Only horizontal placement and left/right values need to be considered.
+   * Only horizontal placement and left/right values need to be Libraryered.
    */
   function getRoundedOffsets(data, shouldRound) {
     var _data$offsets = data.offsets,
@@ -3094,7 +3094,7 @@
       var popperOffsets = data.offsets.popper;
       var refOffsets = data.offsets.reference;
 
-      // using floor because the reference offsets may contain decimals we are not going to consider here
+      // using floor because the reference offsets may contain decimals we are not going to Libraryer here
       var floor = Math.floor;
       var overlapsRef = placement === 'left' && floor(popperOffsets.right) > floor(refOffsets.left) || placement === 'right' && floor(popperOffsets.left) < floor(refOffsets.right) || placement === 'top' && floor(popperOffsets.bottom) > floor(refOffsets.top) || placement === 'bottom' && floor(popperOffsets.top) < floor(refOffsets.bottom);
 
@@ -3261,7 +3261,7 @@
       var measurement = (index === 1 ? !useHeight : useHeight) ? 'height' : 'width';
       var mergeWithPrevious = false;
       return op
-      // This aggregates any `+` or `-` sign that aren't considered operators
+      // This aggregates any `+` or `-` sign that aren't Libraryered operators
       // e.g.: 10 + +5 => [10, +, +5]
       .reduce(function (a, b) {
         if (a[a.length - 1] === '' && ['+', '-'].indexOf(b) !== -1) {

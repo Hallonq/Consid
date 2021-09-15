@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Consid.Logic
+namespace Library.Logic
 {
     public class DatabaseLogic
     {
-        public static void CRUD(ConsidContext _dbContext, object entity, string crudMethod)
+        public static void CRUD(LibraryContext _dbContext, object entity, string crudMethod)
         {
             switch (crudMethod)
             {

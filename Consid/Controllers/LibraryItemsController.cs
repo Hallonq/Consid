@@ -1,5 +1,5 @@
-﻿using Consid.Logic;
-using Consid.ViewModels;
+﻿using Library.Logic;
+using Library.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,13 +12,13 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Consid.Controllers
+namespace Library.Controllers
 {
     public class LibraryItemsController : Controller
     {
-        private readonly ConsidContext _dbContext;
+        private readonly LibraryContext _dbContext;
 
-        public LibraryItemsController(ConsidContext dbContext)
+        public LibraryItemsController(LibraryContext dbContext)
         {
             _dbContext = dbContext;
         }

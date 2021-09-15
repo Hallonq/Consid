@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Consid
+namespace Library
 {
     public partial class Employee
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Consid
+namespace Library
 {
     public partial class LibraryItem
     {

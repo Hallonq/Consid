@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
-namespace Consid
+namespace Library
 {
     public partial class Category
     {

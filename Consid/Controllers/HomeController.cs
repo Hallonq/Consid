@@ -1,4 +1,4 @@
-﻿using Consid.Models;
+﻿using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Consid.Controllers
+namespace Library.Controllers
 {
     public class HomeController : Controller
     {

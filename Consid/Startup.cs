@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Consid
+namespace Library
 {
     public class Startup
     {
@@ -24,8 +24,8 @@ namespace Consid
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<ConsidContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("Consid")));
+            services.AddDbContext<LibraryContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("Library")));
             services.AddSession();
         }
 
